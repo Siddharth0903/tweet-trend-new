@@ -10,8 +10,17 @@ environment {
     stages {
         stage('build') {
             steps {
+                echo "---------------------Build Started------------------------"
                 sh 'mvn clean deploy'
+                echo "---------------------Build Ended------------------------"
                 
+            }
+        }
+        stage("test"){
+            steps{
+                echo "---------------------Unit Test Started------------------------"
+                sh 'mvn surefire-report:report'
+                echo "---------------------Unit Test Ended------------------------"
             }
         }
     stage('SonarQube analysis') {
