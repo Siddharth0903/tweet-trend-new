@@ -95,14 +95,14 @@ stage(" Docker Build ") {
             }
         }
     }
-         stage(" Deploy ") {
-          steps {
-            script {
-               echo '<--------------- Deploy Started --------------->'
-               sh 'helm install twittertrend-2.0.2 ttrend'
-               echo '<--------------- Deploy Ends --------------->'
-            }
-          }
-        }    
+        //  stage(" Deploy ") {
+        //   steps {
+        //     script {
+        //        echo '<--------------- Deploy Started --------------->'
+        //        sh 'helm install twittertrend-2.0.2 ttrend'
+        //        echo '<--------------- Deploy Ends --------------->'
+        //     }
+        //   }
+        // }    
     }
     }
