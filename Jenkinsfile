@@ -1,4 +1,6 @@
 def registry = 'https://twittertrendjforgcicd.jfrog.io'
+def imageName = 'twittertrendjforgcicd.jfrog.io/valaxy-docker/ttrend'
+def version   = '2.0.2'
 pipeline {
     agent {
         node {
@@ -72,7 +74,35 @@ stage("Jar Publish") {
             }
         }   
     }
-        
-}
-    
-}
+stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+    stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'cb52d53b-89d7-4192-b1e4-a625fed0979a'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
+    }
+         stage(" Deploy ") {
+          steps {
+            script {
+               echo '<--------------- Deploy Started --------------->'
+               sh 'helm install twittertrend-2.0.2 ttrend'
+               echo '<--------------- Deploy Ends --------------->'
+            }
+          }
+        }    
+    }
+    }
